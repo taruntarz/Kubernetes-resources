@@ -1,0 +1,23 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+metadata:
+  name: fastapi-app-staging
+
+namespace: staging
+
+resources:
+- ../../k8s-manifests
+
+patchesStrategicMerge:
+- replica-patch.yaml
+- config-patch.yaml
+- ingress-patch.yaml
+
+commonLabels:
+  environment: staging
+  app.kubernetes.io/instance: staging
+
+images:
+- name: <dockerhub-username>/fastapi-ml
+  newTag: staging
